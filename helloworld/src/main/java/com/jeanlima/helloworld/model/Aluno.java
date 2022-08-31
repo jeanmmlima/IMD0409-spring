@@ -1,10 +1,13 @@
 package com.jeanlima.helloworld.model;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class Aluno {
 
+    private Integer id;
     private String nome;
     private String curso;
 
@@ -13,12 +16,19 @@ public class Aluno {
     public Aluno() {
     }
 
-    
-    public Aluno(String nome, String curso) {
+    public Aluno(Integer id, String nome, String curso) {
+        this.id = id;
         this.nome = nome;
         this.curso = curso;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -37,6 +47,18 @@ public class Aluno {
         return "Aluno [curso=" + curso + ", nome=" + nome + "]";
     }
 
+    private static final Aluno[] listaAlunos = {
+        new Aluno(1,"João Maria", "BTI"),
+        new Aluno(2,"José Silva", "BTI"),
+        new Aluno(3,"Maria José", "BTI"),
+    };
+
+
+    public Aluno[] getListaAlunos() {
+        return listaAlunos;
+    }
+
+    
     
     
 }
