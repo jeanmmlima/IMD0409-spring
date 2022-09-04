@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudante</title>
+    
+</head>
+<body>
+    
+  
+       <h1><p th:text="' Olá, ' + ${estudante.primeiroNome}"></h1>
+        <p th:text="'Seja bem-vindo, ' + ${estudante.primeiroNome} + ' ' + ${estudante.ultimoNome} "></p>
+        <p th:text="'Seu curso é:  ' + ${estudante.curso}"></p>
+        <p th:text="'Linguagem favorita:  ' + ${estudante.linguagem}"></p>
+        <p>Sistemas Operacionais favoritos: </p>
+        <ul>
+            <li th:each="os : ${estudante.sistemasOperacionas}">
+                <span th:text="${os}"/>
+            </li>
+    
+</body>
+</html>
