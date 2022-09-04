@@ -1,5 +1,6 @@
 package com.jeanlima.mvcapp.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -9,15 +10,18 @@ import com.jeanlima.mvcapp.model.Estudante;
 @Component
 public class EstudanteServiceImpl implements EstudanteService{
 
-    private List<Estudante> estudantes;
-
-    public List<Estudante> getEstudantes() {
-        return estudantes;
-    }
+    public List<Estudante> estudantes = new ArrayList<Estudante>();    
 
     @Override
     public void salvarEstudante(Estudante estudante) {
-        this.estudantes.add(estudante);
+        System.out.println(estudante.toString());
+        try{
+            this.estudantes.add(estudante);
+        } catch(Exception e){
+            e.printStackTrace();
+            System.out.println(e.toString());
+        }
+        
         
     }
 
@@ -37,5 +41,11 @@ public class EstudanteServiceImpl implements EstudanteService{
         }
         return null;
     }
+
+    @Override
+    public List<Estudante> getListaEstudante() {
+        return this.estudantes;
+    }
+
     
 }
