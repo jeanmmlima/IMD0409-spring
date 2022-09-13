@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudantes</title>
+
+</head>
+
+<body>
+
+
+
+    <p>Lista de estudantes cadastrados: </p>
+    <ul>
+        <li th:each="estudante : ${estudantes}">
+            <span
+                th:text="'Nome:  ' + ${estudante.nome} + ' - Curso:  ' + ${estudante.curso} " />
+        </li>
+    </ul>
+    <br><br>
+    <p>Tabela com as infos</p>
+    <table>
+        <thead>
+          <tr>
+            <th th:text="Id"></th>
+            <th th:text="Nome"></th>
+            <th th:text="Curso"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="estudante: ${estudantes}">
+            <td th:text="${estudante.id}"></td>
+            <td th:text="${estudante.nome}"></td>
+            <td th:text="${estudante.curso}"></td>
+          </tr>
+        </tbody>
+      </table>
+    <br><br>
+    <a href="showForm">Formulário de estudantes</a><br>
+
+</body>
+
+</html>
