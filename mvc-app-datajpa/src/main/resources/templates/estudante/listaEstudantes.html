@@ -28,6 +28,7 @@
             <th th:text="Id"></th>
             <th th:text="Nome"></th>
             <th th:text="Curso"></th>
+            <th>Detalhes</th>
           </tr>
         </thead>
         <tbody>
@@ -35,6 +36,7 @@
             <td th:text="${estudante.id}"></td>
             <td th:text="${estudante.nome}"></td>
             <td th:text="${estudante.curso}"></td>
+            <td><a th:href="@{/estudante/getEstudanteById/{id}(id=${estudante.id})}">veja aqui</a></td>
           </tr>
         </tbody>
       </table>

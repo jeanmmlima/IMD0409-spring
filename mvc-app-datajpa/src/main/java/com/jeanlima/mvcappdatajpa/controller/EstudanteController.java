@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jeanlima.mvcappdatajpa.model.Estudante;
@@ -32,8 +34,10 @@ public class EstudanteController {
     @RequestMapping("/addEstudante")
     public String showFormEstudante(@ModelAttribute("estudante") Estudante estudante,  Model model){
 
-        estudanteService.salvarEstudante(estudante);
-        model.addAttribute("estudante", estudante);
+        Estudante novoEstudante = estudanteService.salvarEstudante(estudante);
+
+
+        model.addAttribute("estudante", novoEstudante);
         return "estudante/paginaEstudante";
     }
 
@@ -44,6 +48,14 @@ public class EstudanteController {
         model.addAttribute("estudantes",estudantes);
         return "estudante/listaEstudantes";
 
+    }
+
+    @GetMapping("/getEstudanteById/{id}")
+    public String getEstudanteById( @PathVariable Integer id, Model model){
+
+        Estudante estudante = estudanteService.getEstudanteById(id);
+        model.addAttribute("estudante",estudante);
+        return "estudante/paginaEstudante";
     }
 
     

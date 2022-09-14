@@ -15,25 +15,27 @@ public class EstudanteServiceImpl implements EstudanteService{
     EstudanteRepository estudanteRepository;
 
     @Override
-    public void salvarEstudante(Estudante estudante) {
+    public Estudante salvarEstudante(Estudante estudante) {
         
-        estudanteRepository.salvar(estudante);
+        return estudanteRepository.save(estudante);
     }
 
     @Override
     public void deletarEstudante(Estudante estudante) {
-        estudanteRepository.deletar(estudante);
+        estudanteRepository.delete(estudante);
         
     }
 
     @Override
     public Estudante getEstudanteById(Integer id) {
-        return estudanteRepository.obterPorId(id);
+        return estudanteRepository.findById(id).map(estudante -> {
+            return estudante;
+        }).orElseThrow(() -> null);
     }
 
     @Override
     public List<Estudante> getListaEstudante() {
-        return estudanteRepository.obterTodos();
+        return estudanteRepository.findAll();
     }
     
 }

@@ -12,7 +12,7 @@ public interface EstudanteService {
 
     
 
-    public void salvarEstudante(Estudante estudante);
+    public Estudante salvarEstudante(Estudante estudante);
     public void deletarEstudante(Estudante estudante);
     public Estudante getEstudanteById(Integer id);
     public List<Estudante> getListaEstudante();
