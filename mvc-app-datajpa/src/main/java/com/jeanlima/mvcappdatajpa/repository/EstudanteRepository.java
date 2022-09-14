@@ -32,4 +32,7 @@ public interface EstudanteRepository extends JpaRepository<Estudante,Integer>{
     @Modifying //pois não é só consulta - transactional 
     void deletarPorNome(String nome);
 
+    @Query(value = " select e.* from estudante e where e.curso_id = ?1",nativeQuery = true)
+    List<Estudante> findAllByIdCurso(Integer id);
+
 }

@@ -1,5 +1,6 @@
 package com.jeanlima.mvcappdatajpa;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,50 +9,65 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.jeanlima.mvcappdatajpa.model.Curso;
 import com.jeanlima.mvcappdatajpa.model.Estudante;
+import com.jeanlima.mvcappdatajpa.repository.CursoRepository;
 import com.jeanlima.mvcappdatajpa.repository.EstudanteRepository;
 
 @SpringBootApplication
 public class MvcAppDatajpaApplication {
 
-	/* @Autowired 
-	EstudanteRepository estudanteRepository; */
+	@Autowired
+	CursoRepository cursoRepository;
+	@Autowired
+	EstudanteRepository estudanteRepository;
 
-	/* @Bean
+	@Bean
 	public CommandLineRunner init(){
 		return args -> {
-			System.out.println("Salvando estudantes");
-            estudanteRepository.salvar(new Estudante("José Maria", "BTI"));
-            estudanteRepository.salvar(new Estudante("Maria da Glória", "Eng Software"));
+			System.out.println("Cadastrando cursos");
 
-            List<Estudante> todosEstudantes = estudanteRepository.obterTodos();
-            todosEstudantes.forEach(System.out::println);
+			cursoRepository.save(new Curso("BTI"));
+            cursoRepository.save(new Curso("Engenharia de Computação"));
+            cursoRepository.save(new Curso("Engenharia de Software"));
+            cursoRepository.save(new Curso("Ciência da Computação"));
 
-            System.out.println("Atualizando estudantes");
-            todosEstudantes.forEach(c -> {
-                c.setNome(c.getNome() + " atualizado.");
-                estudanteRepository.atualizar(c);
-            });
+            System.out.println("Cursos cadastrados");
+            List<Curso> cursos = cursoRepository.findAll();
+            cursos.forEach(System.out::println);
 
-            todosEstudantes = estudanteRepository.obterTodos();
-            todosEstudantes.forEach(System.out::println);
+            Estudante estudante = new Estudante("João");
+            estudante.setCurso(cursos.get(0));
+            Estudante estudante2 = new Estudante("Maria");
+            estudante2.setCurso(cursos.get(1));
+            Estudante estudante3 = new Estudante("Jose");
+            estudante3.setCurso(cursos.get(2));
 
-            System.out.println("Buscando estudantes");
-            estudanteRepository.buscarPorNome("J").forEach(System.out::println);
+            estudanteRepository.save(estudante);
+            estudanteRepository.save(estudante2);
+            estudanteRepository.save(estudante3);
 
-            System.out.println("deletando estudantes");
-            estudanteRepository.obterTodos().forEach(c -> {
-                estudanteRepository.deletar(c);
-            });
+            List<Estudante> estudantes = estudanteRepository.findAll();
+            estudantes.forEach(System.out::println);
 
-            todosEstudantes = estudanteRepository.obterTodos();
-            if(todosEstudantes.isEmpty()){
-                System.out.println("Nenhum estudante encontrado.");
-            }else{
-                todosEstudantes.forEach(System.out::println);
-            }
+            List<Estudante> estudantesPorCurso = estudanteRepository.findAllByIdCurso(cursos.get(0).getId());
+            estudantesPorCurso.forEach(System.out::println);
+            List<Estudante> estudantesPorCurso2 = estudanteRepository.findAllByIdCurso(cursos.get(1).getId());
+            estudantesPorCurso2.forEach(System.out::println);
+            List<Estudante> estudantesPorCurso3 = estudanteRepository.findAllByIdCurso(cursos.get(2).getId());
+            estudantesPorCurso3.forEach(System.out::println);
+
+            Curso curso = cursoRepository.findById(2).map((c) -> {return c;}).orElseThrow();
+            List<Estudante> estudantesPorCurso4 = estudanteRepository.findAllByIdCurso(curso.getId());
+            curso.setEstudantes(new HashSet<>(estudantesPorCurso4));
+            System.out.println("Estudantes do Curso: "+curso.getDescricao());
+            curso.getEstudantes().forEach(System.out::println);
+
+
+            
+
 		};
-	} */
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(MvcAppDatajpaApplication.class, args);

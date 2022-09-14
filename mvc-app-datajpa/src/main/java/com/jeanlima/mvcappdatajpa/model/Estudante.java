@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,8 +21,22 @@ public class Estudante {
     @Column(length = 100)
     private String nome;
 
-    @Column(length = 50)
-    private String curso;
+    @ManyToOne
+    @JoinColumn(name = "curso_id")
+    private Curso curso;
+
+    public Estudante(String nome, Curso curso) {
+        this.nome = nome;
+        this.curso = curso;
+    }
+        
+    public Estudante(String nome) {
+        this.nome = nome;
+    }
+    public Estudante() {
+    }
+    
+
     public int getId() {
         return id;
     }
@@ -32,22 +49,21 @@ public class Estudante {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public String getCurso() {
+    
+    public Curso getCurso() {
         return curso;
     }
-    public void setCurso(String curso) {
+    public void setCurso(Curso curso) {
         this.curso = curso;
     }
-    public Estudante(String nome, String curso) {
-        this.nome = nome;
-        this.curso = curso;
-    }
-    public Estudante() {
-    }
+    
+
+   
     @Override
     public String toString() {
-        return "Estudante [id=" + id + ", nome=" + nome + ",curso=" + curso + ", ]";
+        return "Estudante [curso=" + curso + ", id=" + id + ", nome=" + nome + "]";
     }
+    
 
     
     
