@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudante</title>
+    
+</head>
+<body>
+    
+  
+       <h1><p th:text="' Olá, ' + ${estudante.nome}"></h1>
+        <p th:text="'Matrícula: ' + ${estudante.id} "></p>
+        <p th:text="'Seu curso é:  ' + ${estudante.curso}"></p>
+        
+
+        <br><br>
+        <a href="getListaEstudantes">Ver lista de estudantes</a><br>
+        <a href="showForm">Formulário de estudantes</a><br>
+    
+</body>
+</html>
