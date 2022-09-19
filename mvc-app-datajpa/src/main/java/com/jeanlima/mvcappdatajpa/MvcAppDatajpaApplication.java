@@ -2,6 +2,7 @@ package com.jeanlima.mvcappdatajpa;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -10,8 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.jeanlima.mvcappdatajpa.model.Curso;
+import com.jeanlima.mvcappdatajpa.model.Disciplina;
 import com.jeanlima.mvcappdatajpa.model.Estudante;
 import com.jeanlima.mvcappdatajpa.repository.CursoRepository;
+import com.jeanlima.mvcappdatajpa.repository.DisciplinaRepository;
 import com.jeanlima.mvcappdatajpa.repository.EstudanteRepository;
 
 @SpringBootApplication
@@ -21,6 +24,9 @@ public class MvcAppDatajpaApplication {
 	CursoRepository cursoRepository;
 	@Autowired
 	EstudanteRepository estudanteRepository;
+
+    @Autowired
+    DisciplinaRepository disciplinaRepository;
 
 	@Bean
 	public CommandLineRunner init(){
@@ -32,22 +38,42 @@ public class MvcAppDatajpaApplication {
             cursoRepository.save(new Curso("Engenharia de Software"));
             cursoRepository.save(new Curso("Ciência da Computação"));
 
+            System.out.println("Cadastrando Disciplinas");
+            disciplinaRepository.save(new Disciplina("Desenvolvimento Web I", "IMD0408"));
+            disciplinaRepository.save(new Disciplina("Desenvolvimento Web II", "IMD0409"));
+            disciplinaRepository.save(new Disciplina("Desenvolvimento para Dispositivos Móveis", "IMD0509"));
+
             System.out.println("Cursos cadastrados");
             List<Curso> cursos = cursoRepository.findAll();
             cursos.forEach(System.out::println);
 
-            Estudante estudante = new Estudante("João");
+            System.out.println("Disciplinas cadastradas");
+            List<Disciplina> disciplinas = disciplinaRepository.findAll();
+            disciplinas.forEach(System.out::println);
+
+            Estudante estudante = new Estudante("Aluno A");
             estudante.setCurso(cursos.get(0));
-            Estudante estudante2 = new Estudante("Maria");
+            estudante.setDisciplinas(disciplinas);
+            Estudante estudante2 = new Estudante("Aluno B");
             estudante2.setCurso(cursos.get(1));
-            Estudante estudante3 = new Estudante("Jose");
+            estudante2.setDisciplinas(disciplinas.stream().map(disciplina -> { if(disciplina.getDescricao().contains("Web")){return disciplina;} else {return null;}}).collect(Collectors.toList()));
+            Estudante estudante3 = new Estudante("Aluno C");
             estudante3.setCurso(cursos.get(2));
+            estudante3.setDisciplinas(disciplinas);
 
             estudanteRepository.save(estudante);
             estudanteRepository.save(estudante2);
             estudanteRepository.save(estudante3);
 
             List<Estudante> estudantes = estudanteRepository.findAll();
+            /*
+             * LAZY LOADING
+             */
+            estudantes.forEach(
+                e -> {
+                    System.out.println(e.toString());
+                }
+            );
             estudantes.forEach(System.out::println);
 
             List<Estudante> estudantesPorCurso = estudanteRepository.findAllByIdCurso(cursos.get(0).getId());

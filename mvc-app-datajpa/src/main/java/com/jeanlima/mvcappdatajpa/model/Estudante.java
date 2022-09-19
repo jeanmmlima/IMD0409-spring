@@ -1,11 +1,17 @@
 package com.jeanlima.mvcappdatajpa.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -24,6 +30,12 @@ public class Estudante {
     @ManyToOne
     @JoinColumn(name = "curso_id")
     private Curso curso;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name="curso_estudante",
+    joinColumns=@JoinColumn(name="estudante_id"), 
+    inverseJoinColumns=@JoinColumn(name="disciplina_id"))
+    private List<Disciplina> disciplinas;
 
     public Estudante(String nome, Curso curso) {
         this.nome = nome;
@@ -56,12 +68,18 @@ public class Estudante {
     public void setCurso(Curso curso) {
         this.curso = curso;
     }
-    
-
    
     @Override
     public String toString() {
         return "Estudante [curso=" + curso + ", id=" + id + ", nome=" + nome + "]";
+    }
+
+    public List<Disciplina> getDisciplinas() {
+        return disciplinas;
+    }
+
+    public void setDisciplinas(List<Disciplina> disciplinas) {
+        this.disciplinas = disciplinas;
     }
     
 
