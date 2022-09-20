@@ -29,8 +29,8 @@ public class Disciplina {
     @Column(length = 7)
     private String codigo;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name="curso_estudante",
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE})
+    @JoinTable(name="disciplina_estudante",
     joinColumns=@JoinColumn(name="disciplina_id"), 
     inverseJoinColumns=@JoinColumn(name="estudante_id"))
     private List<Estudante> estudantes;

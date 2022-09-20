@@ -35,4 +35,10 @@ public interface EstudanteRepository extends JpaRepository<Estudante,Integer>{
     @Query(value = " select e.* from estudante e where e.curso_id = ?1",nativeQuery = true)
     List<Estudante> findAllByIdCurso(Integer id);
 
+    @Query(value="SELECT DISTINCT e FROM Estudante e JOIN FETCH e.disciplinas")
+    List<Estudante> findAllFetchDisciplinas();
+
+    @Query(value="SELECT e FROM Estudante e JOIN e.disciplinas d where d.id =:id")
+    List<Estudante> findAllByDisciplinaId(@Param("id") Integer id);
+
 }

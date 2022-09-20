@@ -51,10 +51,10 @@ public class MvcAppDatajpaApplication {
             List<Disciplina> disciplinas = disciplinaRepository.findAll();
             disciplinas.forEach(System.out::println);
 
-            Estudante estudante = new Estudante("Aluno A");
+             Estudante estudante = new Estudante("Aluno A");
             estudante.setCurso(cursos.get(0));
             estudante.setDisciplinas(disciplinas);
-            Estudante estudante2 = new Estudante("Aluno B");
+             Estudante estudante2 = new Estudante("Aluno B");
             estudante2.setCurso(cursos.get(1));
             estudante2.setDisciplinas(disciplinas.stream().map(disciplina -> { if(disciplina.getDescricao().contains("Web")){return disciplina;} else {return null;}}).collect(Collectors.toList()));
             Estudante estudante3 = new Estudante("Aluno C");
@@ -64,17 +64,43 @@ public class MvcAppDatajpaApplication {
             estudanteRepository.save(estudante);
             estudanteRepository.save(estudante2);
             estudanteRepository.save(estudante3);
-
-            List<Estudante> estudantes = estudanteRepository.findAll();
-            /*
-             * LAZY LOADING
-             */
+ 
+                        
+            //FETCH LAZY OR EAGER?
+            //List<Estudante> estudantes = estudanteRepository.findAll();
+            List<Estudante> estudantes = estudanteRepository.findAllFetchDisciplinas();
+           System.out.println("LISTANDO ESTUDANTES E DISCIPLINAS - FETCH");
             estudantes.forEach(
                 e -> {
                     System.out.println(e.toString());
+                    System.out.println(e.getDisciplinas().toString());
                 }
+                
             );
-            estudantes.forEach(System.out::println);
+            
+            
+            List<Estudante> estudantePorDisciplina = estudanteRepository.findAllByDisciplinaId(disciplinas.get(1).getId());
+            System.out.println("Lista Estudantes por Disciplina");
+            estudantePorDisciplina.forEach(
+                e -> {
+                    System.out.println(e.toString());
+                    //System.out.println(e.getDisciplinas().toString());
+                    
+                    
+                }
+                
+            );
+
+            
+            Estudante estudanteDisciplinas = estudanteRepository.findById(2).map(e -> {return e;}).orElseThrow();
+            List<Disciplina> disciplinasPorEstudante = disciplinaRepository.findAllByEstudanteId(estudanteDisciplinas.getId());
+            System.out.println("Estudante");
+            System.out.println(estudanteDisciplinas.toString());
+            estudanteDisciplinas.setDisciplinas(disciplinasPorEstudante);
+            System.out.println("Disciplinas");
+            System.out.println(estudanteDisciplinas.getDisciplinas().toString());
+
+            /* 
 
             List<Estudante> estudantesPorCurso = estudanteRepository.findAllByIdCurso(cursos.get(0).getId());
             estudantesPorCurso.forEach(System.out::println);
@@ -87,7 +113,7 @@ public class MvcAppDatajpaApplication {
             List<Estudante> estudantesPorCurso4 = estudanteRepository.findAllByIdCurso(curso.getId());
             curso.setEstudantes(new HashSet<>(estudantesPorCurso4));
             System.out.println("Estudantes do Curso: "+curso.getDescricao());
-            curso.getEstudantes().forEach(System.out::println);
+            curso.getEstudantes().forEach(System.out::println); */
 
 
             
