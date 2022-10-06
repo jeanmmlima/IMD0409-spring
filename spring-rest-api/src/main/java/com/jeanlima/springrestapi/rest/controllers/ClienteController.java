@@ -1,4 +1,4 @@
-package com.jeanlima.springrestapi.controllers;
+package com.jeanlima.springrestapi.rest.controllers;
 
 import java.util.List;
 import java.util.Optional;
