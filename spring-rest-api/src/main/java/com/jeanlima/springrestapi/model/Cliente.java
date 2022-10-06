@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "cliente") //opicional caso a tabela tenha nome igual da entidadeou caso use schema!
 public class Cliente {
@@ -22,6 +24,9 @@ public class Cliente {
     @Column(length = 100)
     private String nome;
 
+    @Column(length = 11)
+    private String cpf;
+
     //um cliente pode ter muitos pedidos
     /*
      * mappedBy --> para a partir da classe cliente eu possa mapear/retornar os pedidos
@@ -30,6 +35,7 @@ public class Cliente {
      * 
      * fetch  --> Lazy ou Eager - CUIDADO!!!
      */
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Pedido> pedidos;
 
@@ -62,6 +68,12 @@ public class Cliente {
     @Override
     public String toString() {
         return "Cliente [id=" + id + ", nome=" + nome + "]";
+    }
+    public String getCpf() {
+        return cpf;
+    }
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
     
 
