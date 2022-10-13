@@ -18,25 +18,7 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder(){
 
-        /*
-        PasswordEncoder passwordEncoder = new PasswordEncoder() {
-             //codiica a senha
-            @Override
-            public String encode(CharSequence rawPassword) {
-                // TODO Auto-generated method stub
-                return rawPassword + "321";
-            }
-
-            //descodifca a senha
-            @Override
-            public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                // TODO Auto-generated method stub
-                return (rawPassword + "321").equals(encodedPassword);
-            } 
-            };*/
             return new BCryptPasswordEncoder();
-
-    
             
     };
 
@@ -55,16 +37,22 @@ public class SecurityConfig {
         http
             .csrf().disable() //seguranca entre aplicavao web e api,aqui nossa api é rest
             .authorizeHttpRequests((authz) -> authz
-                .antMatchers("/api/clientes/**").authenticated() //precisa estar autenticado
-                //.antMatchers("/api/clientes/**").permitAll() //vai permitir todos
-                //.antMatchers("/api/clientes/**").hasRole("USER")
+                .antMatchers("/api/clientes/**")
+                    //.hasRole("USER") 
+                    .hasAnyRole("USER","ADMIN")
+                .antMatchers("/api/produtos/**")
+                    .hasRole("ADMIN")
+                .antMatchers("/api/pedidos/**")
+                    //.hasRole("USER")    
+                    .hasAnyRole("USER","ADMIN")    
                 
                  
             )
             //.formLogin();
+            .httpBasic(); //possibilita "logar" com o headers de autenticação
             
              //formulario de login customizado
-            .httpBasic();
+            //.httpBasic(withDefaults());
         return http.build();
     }
 
