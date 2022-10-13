@@ -56,16 +56,15 @@ public class SecurityConfig {
             .csrf().disable() //seguranca entre aplicavao web e api,aqui nossa api é rest
             .authorizeHttpRequests((authz) -> authz
                 .antMatchers("/api/clientes/**").authenticated() //precisa estar autenticado
-                //.antMatchers("/api/clientes/**").hasAuthority("MANTER CLIENTE") //precisar ter uma autoridade de gerenciar clientes
                 //.antMatchers("/api/clientes/**").permitAll() //vai permitir todos
                 //.antMatchers("/api/clientes/**").hasRole("USER")
                 
                  
             )
-            .formLogin();
+            //.formLogin();
             
              //formulario de login customizado
-            //.httpBasic(withDefaults());
+            .httpBasic();
         return http.build();
     }
 
