@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.jeanlima.springrestapi.exception.SenhaInvalidaException;
 import com.jeanlima.springrestapi.model.Usuario;
 import com.jeanlima.springrestapi.repository.UsuarioRepository;
 
@@ -30,6 +31,17 @@ public class UsuarioServiceImpl implements UserDetailsService {
     @Transactional
     public Usuario salvar(Usuario usuario) {
         return repository.save(usuario);
+    }
+
+    public UserDetails autenticar( Usuario usuario ){
+        UserDetails user = loadUserByUsername(usuario.getLogin());
+        boolean senhasBatem = passwordEncoder.matches( usuario.getSenha(), user.getPassword() );
+
+        if(senhasBatem){
+            return user;
+        }
+
+        throw new SenhaInvalidaException();
     }
 
     @Override
